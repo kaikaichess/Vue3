@@ -1,7 +1,8 @@
 <template>
-    <h4>当前求和为:{{sum}}</h4>
-    <button @click="sum++">点我++</button>
+    <h4>当前的x是：{{x}}</h4>
+    <button @click="x++">点我x+1</button>
     <hr/>
+    <h4>{{person}}</h4>
     <h2>学生姓名为：{{name}}</h2>
     <h2>学生年龄为：{{age}}</h2>
     <button @click="name += '~'">修改学生姓名</button>
@@ -13,11 +14,11 @@
 </template>
 
 <script>
-    import { reactive, toRefs, ref, readonly, shallowReadonly } from 'vue'
+    import { reactive, toRefs, shallowRef } from 'vue'
     export default {
         name: 'DemoIndex',
         setup() {
-            let sum = ref(0)
+            // let person = shallowReactive({ // 只考虑第一层数据的响应式
             let person = reactive({
                 name: '张三',
                 age: 18,
@@ -28,8 +29,7 @@
                 }
             })
 
-            // person = readonly(person)
-            person = shallowReadonly(person)
+            let x = shallowRef(0) // shallowRef不去处理对象形式的数据(ref会处理)
             
 
             return {
@@ -37,8 +37,7 @@
                 // age: toRef(person, 'age'),
                 // salary: toRef(person.job.j1, 'salary'),
                 ...toRefs(person),
-                person,
-                sum,
+                x
             }
         },
         
